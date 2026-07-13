@@ -9,7 +9,7 @@ const pageTitles: Record<string,string>={
         "/dashboard": "Dashboard",
         "/accounts":"Social Accounts",
         "/schedule":"Post Scheduler",
-        "ai-composer":"AI Composer"
+        "/ai-composer":"AI Composer"
     }
 const Layout = () => {
     const location=useLocation()
@@ -27,7 +27,7 @@ const Layout = () => {
             {/* top bar */}
             <header className='h-16 bg-white border-b border-slate-200 
             flex items-center px-4 md:px-8 gap-4'>
-                <button className='md:hidden p-2 ml-2 text-slate-500'
+                <button aria-label='Open navigation menu' className='md:hidden p-2 ml-2 text-slate-500'
                 onClick={()=>setIsMobileMenuOpen(true)}>
                     <MenuIcon className='size-6' />
                 </button>

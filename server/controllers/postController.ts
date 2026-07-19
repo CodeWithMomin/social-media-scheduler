@@ -29,7 +29,24 @@ const pollLeonardoJob=async (generationId:string,apiKey:string):Promise<string>=
                 throw new Error("Leonardo.ai generation failed.")
             }
         } catch (err:any) {
-            console.error("Polling error:",err?.response?.data || err.message)
+             console.error("Polling error:", err?.response?.data || err.message);
+
+    // Stop retrying for permanent failures
+    if (
+        err.message === "Generation complete but no Images found." ||
+        err.message === "Leonardo.ai generation failed."
+    ) {
+        throw err;
+    }
+
+    // Stop retrying for invalid requests or auth errors
+    if (
+        err.response?.status === 401 ||
+        err.response?.status === 403 ||
+        err.response?.status === 404
+    ) {
+        throw err;
+    }
         }
         await new Promise((resolve)=> setTimeout(resolve,delay))
     }

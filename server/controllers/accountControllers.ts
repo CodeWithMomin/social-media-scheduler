@@ -15,7 +15,6 @@ export const getAccounts = async (req: AuthRequest, res: Response):Promise<void>
         const accounts = await Account.find({ user: req.user._id })
         res.json(accounts);
 
-res.json(accounts);
 
     } catch (error: any) {
         res.status(500).json({ message: error?.message || "Server Error" })

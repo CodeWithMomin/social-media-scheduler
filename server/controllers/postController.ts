@@ -5,8 +5,6 @@ import axios from "axios";
 import { cloudinary } from "../config/cloudinary.js";
 import { Generation } from "../models/Generation.js";
 import { Post } from "../models/Post.js";
-import { resolve } from "node:dns";
-import { rejects } from "node:assert";
 
 //helper to call leonardo.ai
 const pollLeonardoJob=async (generationId:string,apiKey:string):Promise<string>=>{
@@ -45,7 +43,7 @@ export const generatePost = async (req: AuthRequest, res: Response): Promise<voi
         const { prompt, tone, generateImage } = req.body;
         const apiKey = process.env.GEMINI_API_KEY
         if (!apiKey) {
-            res.status(400).json({ message: "GEMINI_API_KEY is missing. Please add it to server/.env" });
+            res.status(500).json({ message: "GEMINI_API_KEY is missing. Please add it to server/.env" });
             return;
         }
         const ai = new GoogleGenAI({ apiKey })
@@ -155,6 +153,7 @@ export const schedulePost = async (req: AuthRequest, res: Response): Promise<voi
 
 try {
   const {content,platforms,scheduledFor,status}=req.body
+  
   //Parser platforms if it comes as a stringfied array from FormData
   let parsedPlatforms=platforms;
   if(typeof platforms === "string"){

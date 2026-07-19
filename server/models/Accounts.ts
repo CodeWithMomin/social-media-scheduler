@@ -6,7 +6,7 @@ const accountSchema=new mongoose.Schema({
     platform:{type:String,enum:["twitter","facebook","linkedin","instagram","facebook_page",
         "linkedin_page","instagram_business"],required:true},
     handle:{type:String,required:true},
-    zernioAccount:{type:String},
+    zernioAccountId:{type:String},
     accessToken:{type:String},
     refreshToken:{type:String},
     status:{type:String,enum:["connected","disconnected"],default:"connected"},

@@ -16,6 +16,10 @@ export const protect=async (req:AuthRequest,res:Response,next:NextFunction)=>{
             token=req.headers.authorization.split(" ")[1]
             const decoded:any=jwt.verify(token,process.env.JWT_SECRET!)
             req.user=await User.findById(decoded.id).select("-password")
+            if (!req.user) {
+                res.status(401).json({message:"Not Authorized, user not found"});
+                return;
+            }
             next()
         } catch (error:any) {
             res.status(401).json({message:error?.message || "Not Authorized,token failed"})

@@ -10,6 +10,9 @@ import { AuthRequest } from "../middleware/authMiddleware.js";
 
 const getOrCreateZernioProfile=async (user:any):Promise<string> =>{
     try {
+        if (user.zernioProfileId) {
+            return user.zernioProfileId;
+        }
         const result=await zernio.profiles.listProfiles();
         const data=result.data as any;
         const profiles:any[] = Array.isArray(data) ? data :data?.profiles || data?.data || []
@@ -49,7 +52,7 @@ export const generateAuthUrl=async (req:AuthRequest,res:Response): Promise<void>
             path:{platform: platform as any},
             query:{
                 profileId,
-                redirictUrl:redirictUrl
+               redirictUrl
             }
         })
         const data=result.data as any

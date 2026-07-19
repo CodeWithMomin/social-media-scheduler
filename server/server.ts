@@ -2,6 +2,9 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from 'express';
 import cors from "cors";
 import connectDB from "./config/db.js";
+import authRotuer from "./routes/authRoutes.js";
+import socialAuthRouter from "./routes/socialAuthRoutes.js";
+
 const app = express();
 // Database connection
 await connectDB()
@@ -9,6 +12,9 @@ await connectDB()
 // Middleware
 app.use(cors())
 app.use(express.json());
+
+app.use('/api/auth',authRotuer)
+app.use('/api/oauth',socialAuthRouter)
 
 const port = process.env.PORT || 3000;
 

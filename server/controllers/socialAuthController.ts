@@ -47,12 +47,12 @@ export const generateAuthUrl=async (req:AuthRequest,res:Response): Promise<void>
         const {platform}=req.params;
         const profileId=await getOrCreateZernioProfile(req.user)
         const origin=req.headers.origin;
-        const redirictUrl=`${origin}/accounts`
+        const redirectUrl=`${origin}/accounts`
         const result=await zernio.connect.getConnectUrl({
             path:{platform: platform as any},
             query:{
                 profileId,
-               redirictUrl
+               redirectUrl
             }
         })
         const data=result.data as any

@@ -4,6 +4,8 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRotuer from "./routes/authRoutes.js";
 import socialAuthRouter from "./routes/socialAuthRoutes.js";
+import accountRouter from "./routes/accountsRoutes.js";
+import postRouter from "./routes/postRoutes.js";
 
 const app = express();
 // Database connection
@@ -15,6 +17,8 @@ app.use(express.json());
 
 app.use('/api/auth',authRotuer)
 app.use('/api/oauth',socialAuthRouter)
+app.use('/api/accounts',accountRouter)
+app.use('/api/posts',postRouter)
 
 const port = process.env.PORT || 3000;
 

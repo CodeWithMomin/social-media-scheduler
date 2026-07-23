@@ -4,8 +4,15 @@ import { Account } from "../models/Accounts.js";
 import zernio from "../config/zernio.js";
 import { ActivityLog } from "../models/ActivityLog.js";
 
+let isRunning=false;
+
 export const initScheduler=()=>{
     cron.schedule("* * * * *",async ()=>{
+        if(isRunning){
+            console.log("Previous scheduler run still in progress, skipping this tick");
+            return;
+        }
+        isRunning=true;
         try {
             const now=new Date();
             const postsToPublish=await Post.find({status:"scheduled",scheduledFor:{$lte:now}});
@@ -23,7 +30,7 @@ export const initScheduler=()=>{
                         continue;
                     }
                     const zernioPlatforms=accounts.map((acc)=>({
-                        tform:acc.platform as any,
+                        platform:acc.platform as any,
                         accountId:acc.zernioAccountId!
                     }))
                     const payload={
@@ -65,6 +72,8 @@ export const initScheduler=()=>{
             }
         } catch (error) {
             console.error("Error in scheduler")
+        } finally {
+            isRunning=false;
         }
     })
     console.log("Scheduler service initialized.")

@@ -5,8 +5,8 @@ const PostSchema=new mongoose.Schema({
  content:{type:String,required:true},
 mediaUrl:{type:String},
 mediaType:{type:String,enum:["image","video"]},
-platforms:{type:String,enum:["twitter","facebook","linkedin","instagram","facebook_page",
-        "linkedin_page","instagram_business"],required:true},
+platforms:[{type:String,enum:["twitter","facebook","linkedin","instagram","facebook_page",
+        "linkedin_page","instagram_business"],required:true}],
 scheduledFor:{type:Date,required:true},
 status:{type:String,enum:["draft","scheduled","published","failed"],default:"scheduled"}
 
